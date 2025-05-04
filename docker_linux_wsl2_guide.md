@@ -13,8 +13,8 @@ wsl --install
 ```
 - Installs Ubuntu (default).
 - After installation, you’ll be prompted to:
-  - **Enter UNIX username** hamza
-  - **Create and confirm a password** (input hidden) 
+  - **Enter UNIX username**
+  - **Create and confirm a password** (input hidden)
 
 ---
 
@@ -27,7 +27,7 @@ sudo apt update && sudo apt upgrade -y
 
 ## ✅ 3. Install Docker in Ubuntu (WSL2)
 
-### Install dependencies: i have allredy
+### Install dependencies:
 ```bash
 sudo apt install -y ca-certificates curl gnupg lsb-release
 ```
@@ -146,3 +146,110 @@ You're now ready to build and manage full Dockerized environments in your Window
 ---
 
 📦 *Prepared with reference to the PDF tutorial by Pr. Hilmani Adil*
+
+---
+
+## 📦 Bonus: docker-compose.yml for MySQL + phpMyAdmin
+
+To manage both MySQL and phpMyAdmin together, create a `docker-compose.yml` file:
+
+```yaml
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql
+    container_name: my-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: my-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql
+```
+
+### 🚀 To run:
+```bash
+docker compose up -d
+```
+
+Then open your browser at: [http://localhost:8081](http://localhost:8081)
+
+---
+
+
+---
+
+## 🛠️ How to Create and Run `docker-compose.yml`
+
+Follow these steps inside your Ubuntu (WSL2) terminal:
+
+### 📝 1. Create the file using nano
+```bash
+nano docker-compose.yml
+```
+
+### 🧾 2. Paste this content into the file:
+```yaml
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql
+    container_name: my-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: my-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql
+```
+
+### 💾 3. Save and exit nano
+- Press `Ctrl + O` to save the file
+- Press `Enter` to confirm the name
+- Press `Ctrl + X` to exit the editor
+
+---
+
+### 🐳 4. Run the containers
+```bash
+docker compose up -d
+```
+
+This will pull the Docker images and start both MySQL and phpMyAdmin services.
+
+---
+
+### 🌐 5. Access the phpMyAdmin dashboard
+Open your browser and visit:
+```
+http://localhost:8081
+```
+
+Login credentials:
+- **Username**: `root`
+- **Password**: `secret`
+- **Server**: `mysql`
+
+---
