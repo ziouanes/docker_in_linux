@@ -117,7 +117,10 @@ docker stop <CONTAINER_ID>
 
 ## ✅ 10. Run MySQL Container (Travail à Faire 2)
 
-```bash
+Delete it and recreate fresh
+
+docker rm my-phpmyadmin
+
 docker run -d --name my-mysql -e MYSQL_ROOT_PASSWORD=secret -p 3306:3306 mysql
 ```
 
